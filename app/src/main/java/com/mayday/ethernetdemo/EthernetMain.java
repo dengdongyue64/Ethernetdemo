@@ -28,7 +28,6 @@ public class EthernetMain {
     private ContentResolver contentResolver;
     private StaticIpConfiguration mStaticIpConfiguration;
     private IpConfiguration mIpConfiguration;
-
     public EthernetMain(Context context) {
         this.mContext=context;
         if (ethernetManager == null) {
@@ -39,6 +38,9 @@ public class EthernetMain {
 
     private void init() {
         contentResolver = mContext.getContentResolver();
+    }
+    public IpConfiguration.IpAssignment getIPMode(){
+        return ethernetManager.getConfiguration().getIpAssignment();
     }
 
     //打开以太网

@@ -1,13 +1,14 @@
 package com.mayday.ethernetdemo;
 
+import android.net.IpConfiguration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.mayday.ethernetdemo.util.IpUtil;
 import com.mayday.ethernetdemo.util.NetWorkType;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText etDns1;
     private EditText etDns2;
     private TextView tvIpContent;
+    private TextView ipMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etDns1 = (EditText) findViewById(R.id.et_dns1);
         etDns2 = (EditText) findViewById(R.id.et_dns2);
         tvIpContent = (TextView) findViewById(R.id.tv_ip_content);
+        ipMode = (TextView) findViewById(R.id.ip_mode);
     }
 
     private void initData() {
@@ -122,8 +125,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void accept(NetWorkType s) throws Exception {
                         tvIpContent.setText("ip:" + s.getIp() + "\n" +
                                 "type:" + s.getType());
+
                     }
                 });
+        IpConfiguration.IpAssignment mode =ethernetMain.getIPMode();
+        if ( mode== IpConfiguration.IpAssignment.DHCP) {
+            ipMode.setText("mode :use" + "DHCP");
+            Log.e("steve","222222222222222222222222222222222222DHCP ");
+        } else if(mode == IpConfiguration.IpAssignment.STATIC) {
+            Log.e("steve","11111111111111111111111111111111static  ");
+            ipMode.setText("mode :use" + "Static ip");
+        }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(String event) {
